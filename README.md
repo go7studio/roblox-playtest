@@ -34,7 +34,7 @@ node .../rbx-playtest.mjs register --agents grok
 | Agent | How |
 | --- | --- |
 | Grok CLI | The skill shows up in `/skills` after `install.mjs`. Grok runs the CLI from its shell; with `register --agents grok` it can also call the Studio tools itself. |
-| Go7 Workhorse | Settings > Skills > **Import** `skills/roblox-playtest` from this repo. Workers use the CLI; reports land in the game repo's `.playtest/`. |
+| Go7 Workhorse | Settings > Skills > **Import** `skills/roblox-playtest` from this repo. Workers use the CLI; reports land in the game repo's `.playtest/`. For a live dashboard, add the **Roblox playtest** Workshop pack: [packs/roblox-playtest](packs/roblox-playtest/README.md). |
 | Cursor / Codex / Claude Code | `install.mjs` puts the skill in their skill folders; `register` adds the MCP server. |
 | CI or scripts | Call the CLI and use its exit code: 0 pass, 1 fail, 2 blocked, 3 timeout. Studio must be open on that machine. |
 
@@ -59,6 +59,7 @@ skills/roblox-playtest/
   scripts/rbx-mcp.mjs               raw Studio MCP calls from a shell
   scripts/lib/mcp.mjs               the MCP stdio client
   templates/                        config, DevHook, SmokeHarness, DevProbe
+packs/roblox-playtest/              Workhorse Workshop pack (pack.json) + read-only feed collector
 test/                               offline tests (node --test)
 ```
 

@@ -1,0 +1,64 @@
+{
+  "id": "roblox-playtest",
+  "name": "Roblox playtest",
+  "version": "1.0.0",
+  "contract": 1,
+  "description": "Latest Roblox Studio playtest verdict per game: pass/fail counts, new failures, known flakes, blocked gates, and run history. Read-only.",
+  "homepage": "https://github.com/go7studio/roblox-playtest",
+  "collector": "collector",
+  "sources": [
+    { "id": "feed", "kind": "json", "path": "feed", "pollMs": 15000, "freshMs": 120000, "asOf": "/asOf", "schema": "go7-roblox-playtest/feed-v1", "maxBytes": 262144 }
+  ],
+  "strip": [
+    { "w": "switch", "cases": [
+      { "when": "feed:/latest/ok", "is": true, "paint": { "w": "text", "tone": "ok", "of": "feed:/latest/verdictWord" } },
+      { "when": "feed:/latest/ok", "is": false, "paint": { "w": "text", "tone": "warn", "of": "feed:/latest/verdictWord" } }
+    ], "else": { "w": "text", "tone": "mute", "value": "no runs" } },
+    { "w": "text", "of": "feed:/latest/project" },
+    { "w": "text", "of": "feed:/latest/finishedAt", "fmt": "age" }
+  ],
+  "cards": [
+    {
+      "title": "Last run",
+      "name": { "of": "feed:/latest/project" },
+      "aside": { "w": "text", "of": "feed:/latest/finishedAt", "fmt": "age" },
+      "rows": [
+        { "w": "pair",
+          "a": { "of": "feed:/latest/pass", "fmt": "int", "sub": { "value": "pass" } },
+          "b": { "of": "feed:/latest/fail", "fmt": "int", "sub": { "value": "fail" } } },
+        { "w": "bar", "num": "feed:/latest/pass", "den": "feed:/latest/total", "label": "checks passing", "showPct": true },
+        { "w": "kv", "label": "Verdict", "of": "feed:/latest/verdictWord" },
+        { "w": "kv", "label": "New failures", "of": "feed:/latest/newFailures", "fmt": "int" },
+        { "w": "kv", "label": "Targets", "of": "feed:/latest/targets" },
+        { "w": "kv", "label": "Run by", "of": "feed:/latest/agent" },
+        { "w": "kv", "label": "Minutes", "of": "feed:/latest/durationMin", "fmt": "fixed1" },
+        { "w": "switch", "cases": [
+          { "when": "feed:/latest/newFailureNames", "has": true, "paint": { "w": "chips", "of": "feed:/latest/newFailureNames", "tone": "warn" } }
+        ], "else": { "w": "note", "value": "No new failures" } },
+        { "w": "switch", "cases": [
+          { "when": "feed:/latest/flakyNames", "has": true, "paint": { "w": "chips", "of": "feed:/latest/flakyNames", "tone": "mute" } }
+        ] },
+        { "w": "switch", "cases": [
+          { "when": "feed:/latest/blockedGates", "has": true, "paint": { "w": "log", "of": "feed:/latest/blockedGates", "lines": 8 } }
+        ] }
+      ]
+    },
+    {
+      "title": "Games",
+      "rows": [
+        { "w": "log", "of": "feed:/projectLines", "lines": 20 }
+      ]
+    },
+    {
+      "title": "History",
+      "aside": { "w": "meta", "parts": [
+        { "of": "feed:/recent/passing", "fmt": "int", "suffix": " passing" },
+        { "of": "feed:/recent/runs", "fmt": "int", "prefix": "of ", "suffix": " recent" },
+        { "of": "feed:/recent/streak", "fmt": "int", "prefix": "streak " }
+      ] },
+      "rows": [
+        { "w": "log", "of": "feed:/historyLog", "lines": 40 }
+      ]
+    }
+  ]
+}
