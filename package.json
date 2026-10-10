@@ -1,0 +1,17 @@
+{
+  "name": "roblox-playtest",
+  "version": "1.0.0",
+  "description": "Agent-agnostic Roblox Studio playtest skill: doctor, sync, play, smoke, walk, report.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "bin": {
+    "rbx-playtest": "skills/roblox-playtest/scripts/rbx-playtest.mjs",
+    "rbx-mcp": "skills/roblox-playtest/scripts/rbx-mcp.mjs"
+  },
+  "scripts": {
+    "test": "node --test",
+    "install-skill": "node install.mjs"
+  }
+}

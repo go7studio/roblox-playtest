@@ -1,0 +1,26 @@
+{
+  "schema": "go7-roblox-playtest/config-v1",
+  "name": "MyGame",
+  "placeId": 0,
+  "universeId": 0,
+  "studioMatch": "placeId: 0",
+  "rojo": { "port": 34872, "projectName": "MyGame" },
+  "syncCheck": {
+    "file": "src/ServerScriptService/DevHook.server.luau",
+    "instance": "game.ServerScriptService.DevHook"
+  },
+  "devHook": {
+    "path": "game.ServerStorage.DevHook",
+    "status": "status",
+    "smoke": "smoke",
+    "report": "smokeReport"
+  },
+  "probe": { "path": "game.ReplicatedStorage.DevProbe" },
+  "smoke": {
+    "targets": "",
+    "timeoutSec": 1200,
+    "pollSec": 5,
+    "knownFlaky": []
+  },
+  "reportDir": ".playtest"
+}
